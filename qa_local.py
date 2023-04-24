@@ -10,9 +10,9 @@ parser.add_argument('question', type=str, help='The question to ask the notion D
 args = parser.parse_args()
 
 # Load the LangChain.
-index = faiss.read_index("docs.index")
+index = faiss.read_index("docs_local.index")
 
-with open("faiss_store.pkl", "rb") as f:
+with open("faiss_store_local.pkl", "rb") as f:
     store = pickle.load(f)
 
 store.index = index
