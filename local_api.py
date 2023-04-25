@@ -11,7 +11,7 @@ class LocalApi(LLM):
     
     def _call(self, prompt: str, stop: Optional[List[str]] = None) -> str:
         print("Prompt: " + prompt)
-        url = "http://127.0.0.1"
+        url = "http://86.27.34.44"
         payload={'message': prompt}
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
