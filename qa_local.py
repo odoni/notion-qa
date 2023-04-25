@@ -3,7 +3,7 @@ import faiss
 from langchain.chains import VectorDBQAWithSourcesChain
 import pickle
 import argparse
-from local_api import LocalApi
+# from local_api import LocalApi
 from langchain import HuggingFaceHub
 
 parser = argparse.ArgumentParser(description='Ask a question to the notion DB.')
@@ -22,7 +22,7 @@ llm=HuggingFaceHub(repo_id="google/flan-t5-xl", model_kwargs={"temperature":0, "
 # llm=LocalApi()
 
 
-chain = VectorDBQAWithSourcesChain.from_llm(llm=LocalApi(), vectorstore=store)
+chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store)
 result = chain({"question": args.question})
 print(f"Answer: {result['answer']}")
 print(f"Sources: {result['sources']}")
