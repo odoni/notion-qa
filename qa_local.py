@@ -22,7 +22,7 @@ llm=HuggingFaceHub(repo_id="google/flan-t5-xl", model_kwargs={"temperature":0, "
 # llm=LocalApi()
 
 
-chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=store.vectorstore.as_retriever())
+chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=store)
 result = chain({"question": args.question})
 print(f"Answer: {result['answer']}")
 print(f"Sources: {result['sources']}")
