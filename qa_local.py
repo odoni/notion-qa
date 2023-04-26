@@ -18,8 +18,8 @@ with open("faiss_store_local.pkl", "rb") as f:
 
 store.index = index
 
-llm=HuggingFaceHub(repo_id="google/flan-t5-xl", model_kwargs={"temperature":0, "max_length":512})
-# llm=LocalApi()
+# llm=HuggingFaceHub(repo_id="google/flan-t5-xl", model_kwargs={"temperature":0, "max_length":512})
+llm=LocalApi()
 
 
 chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store)
