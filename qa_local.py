@@ -18,7 +18,6 @@ QUESTION_PROMPT = PromptTemplate(
 combine_prompt_template = """### input:
 Given the following extracted parts of a long document and a question, create a output with references ("SOURCES"). 
 If you don't know the answer, just say that you don't know. Don't try to make up an answer.
-ALWAYS return a "SOURCES" part in your answer.
 
 ### instruction: Which state/country's law governs the interpretation of the contract?
 =========
@@ -30,7 +29,6 @@ Content: (b) if Google believes, in good faith, that the Distributor has violate
 Source: 4-pl
 =========
 ### output: This Agreement is governed by English law.
-SOURCES: 28-pl
 
 ### instruction: What did the president say about Michael Jackson?
 =========
@@ -44,7 +42,6 @@ Content: More support for patients and families. \n\nTo get there, I call on Con
 Source: 34-pl
 =========
 ### output: The president did not mention Michael Jackson.
-SOURCES:
 
 ### instruction: {question}
 =========
@@ -79,4 +76,3 @@ llm=LocalApi()
 chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store, question_prompt=QUESTION_PROMPT, combine_prompt=COMBINE_PROMPT, document_prompt=EXAMPLE_PROMPT, k=2)
 result = chain({"question": args.question})
 print(f"Answer: {result['answer']}")
-print(f"Sources: {result['sources']}")
