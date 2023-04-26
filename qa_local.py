@@ -57,7 +57,7 @@ COMBINE_PROMPT = PromptTemplate(
 
 EXAMPLE_PROMPT = PromptTemplate(
     template="Content: {page_content}",
-    input_variables=["page_content", "source"],
+    input_variables=["page_content"],
 )
 
 parser = argparse.ArgumentParser(description='Ask a question to the notion DB.')
