@@ -16,5 +16,5 @@ class LocalApi(LLM):
         headers = {
             'Content-Type': 'application/json; charset=UTF-8'
         }
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
         return response.text
