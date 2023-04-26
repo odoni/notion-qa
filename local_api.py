@@ -14,7 +14,7 @@ class LocalApi(LLM):
         url = "http://86.27.34.44"
         payload={'message': prompt}
         headers = {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            'Content-Type': 'application/json; charset=UTF-8'
         }
         response = requests.request("POST", url, headers=headers, data=payload)
         return response.text
