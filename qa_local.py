@@ -55,6 +55,11 @@ COMBINE_PROMPT = PromptTemplate(
     template=combine_prompt_template, input_variables=["summaries", "question"]
 )
 
+EXAMPLE_PROMPT = PromptTemplate(
+    template="Content: {page_content}",
+    input_variables=["page_content", "source"],
+)
+
 parser = argparse.ArgumentParser(description='Ask a question to the notion DB.')
 parser.add_argument('question', type=str, help='The question to ask the notion DB')
 args = parser.parse_args()
@@ -71,7 +76,7 @@ store.index = index
 llm=LocalApi()
 
 
-chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store, question_prompt=QUESTION_PROMPT, combine_prompt=COMBINE_PROMPT, k=2)
+chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store, question_prompt=QUESTION_PROMPT, combine_prompt=COMBINE_PROMPT, document_prompt=EXAMPLE_PROMPT, k=2)
 result = chain({"question": args.question})
 print(f"Answer: {result['answer']}")
 print(f"Sources: {result['sources']}")
