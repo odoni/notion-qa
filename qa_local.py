@@ -15,11 +15,12 @@ QUESTION_PROMPT = PromptTemplate(
     template=question_prompt_template, input_variables=["context", "question"]
 )
 
-combine_prompt_template = """Given the following extracted parts of a long document and a question, create a final answer with references ("SOURCES"). 
+combine_prompt_template = """### input:
+Given the following extracted parts of a long document and a question, create a output with references ("SOURCES"). 
 If you don't know the answer, just say that you don't know. Don't try to make up an answer.
 ALWAYS return a "SOURCES" part in your answer.
 
-QUESTION: Which state/country's law governs the interpretation of the contract?
+### instruction: Which state/country's law governs the interpretation of the contract?
 =========
 Content: This Agreement is governed by English law and the parties submit to the exclusive jurisdiction of the English courts in  relation to any dispute (contractual or non-contractual) concerning this Agreement save that either party may apply to any court for an  injunction or other relief to protect its Intellectual Property Rights.
 Source: 28-pl
@@ -28,10 +29,10 @@ Source: 30-pl
 Content: (b) if Google believes, in good faith, that the Distributor has violated or caused Google to violate any Anti-Bribery Laws (as  defined in Clause 8.5) or that such a violation is reasonably likely to occur,
 Source: 4-pl
 =========
-FINAL ANSWER: This Agreement is governed by English law.
+### output: This Agreement is governed by English law.
 SOURCES: 28-pl
 
-QUESTION: What did the president say about Michael Jackson?
+### instruction: What did the president say about Michael Jackson?
 =========
 Content: Madam Speaker, Madam Vice President, our First Lady and Second Gentleman. Members of Congress and the Cabinet. Justices of the Supreme Court. My fellow Americans.  \n\nLast year COVID-19 kept us apart. This year we are finally together again. \n\nTonight, we meet as Democrats Republicans and Independents. But most importantly as Americans. \n\nWith a duty to one another to the American people to the Constitution. \n\nAnd with an unwavering resolve that freedom will always triumph over tyranny. \n\nSix days ago, Russia’s Vladimir Putin sought to shake the foundations of the free world thinking he could make it bend to his menacing ways. But he badly miscalculated. \n\nHe thought he could roll into Ukraine and the world would roll over. Instead he met a wall of strength he never imagined. \n\nHe met the Ukrainian people. \n\nFrom President Zelenskyy to every Ukrainian, their fearlessness, their courage, their determination, inspires the world. \n\nGroups of citizens blocking tanks with their bodies. Everyone from students to retirees teachers turned soldiers defending their homeland.
 Source: 0-pl
@@ -42,14 +43,14 @@ Source: 5-pl
 Content: More support for patients and families. \n\nTo get there, I call on Congress to fund ARPA-H, the Advanced Research Projects Agency for Health. \n\nIt’s based on DARPA—the Defense Department project that led to the Internet, GPS, and so much more.  \n\nARPA-H will have a singular purpose—to drive breakthroughs in cancer, Alzheimer’s, diabetes, and more. \n\nA unity agenda for the nation. \n\nWe can do this. \n\nMy fellow Americans—tonight , we have gathered in a sacred space—the citadel of our democracy. \n\nIn this Capitol, generation after generation, Americans have debated great questions amid great strife, and have done great things. \n\nWe have fought for freedom, expanded liberty, defeated totalitarianism and terror. \n\nAnd built the strongest, freest, and most prosperous nation the world has ever known. \n\nNow is the hour. \n\nOur moment of responsibility. \n\nOur test of resolve and conscience, of history itself. \n\nIt is in this moment that our character is formed. Our purpose is found. Our future is forged. \n\nWell I know this nation.
 Source: 34-pl
 =========
-FINAL ANSWER: The president did not mention Michael Jackson.
+### output: The president did not mention Michael Jackson.
 SOURCES:
 
-QUESTION: {question}
+### instruction: {question}
 =========
 {summaries}
 =========
-FINAL ANSWER:"""
+### output:"""
 COMBINE_PROMPT = PromptTemplate(
     template=combine_prompt_template, input_variables=["summaries", "question"]
 )
@@ -70,7 +71,7 @@ store.index = index
 llm=LocalApi()
 
 
-chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store, question_prompt=QUESTION_PROMPT, combine_prompt=COMBINE_PROMPT)
+chain = VectorDBQAWithSourcesChain.from_llm(llm=llm, vectorstore=store, question_prompt=QUESTION_PROMPT, combine_prompt=COMBINE_PROMPT, k=2)
 result = chain({"question": args.question})
 print(f"Answer: {result['answer']}")
 print(f"Sources: {result['sources']}")
