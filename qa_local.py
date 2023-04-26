@@ -4,7 +4,7 @@ from langchain.chains import VectorDBQAWithSourcesChain
 import pickle
 import argparse
 # from local_api import LocalApi
-from langchain import HuggingFaceHub
+# from langchain import HuggingFaceHub
 
 parser = argparse.ArgumentParser(description='Ask a question to the notion DB.')
 parser.add_argument('question', type=str, help='The question to ask the notion DB')
