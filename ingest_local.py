@@ -6,9 +6,9 @@ from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 import pickle
 
-
+print("Loading files")
 # Here we load in the data in the format that Notion exports it in.
-ps = list(Path("Notion_DB/").glob("**/*.md"))
+ps = list(Path("dataset_globose_inc/").glob("**/*.txt"))
 
 data = []
 sources = []
@@ -17,6 +17,7 @@ for p in ps:
         data.append(f.read())
     sources.append(p)
 
+print("Spliting files")
 # Here we split the documents, as needed, into smaller chunks.
 # We do this due to the context limits of the LLMs.
 text_splitter = CharacterTextSplitter(chunk_size=1500, separator="\n")
@@ -27,10 +28,10 @@ for i, d in enumerate(data):
     docs.extend(splits)
     metadatas.extend([{"source": sources[i]}] * len(splits))
 
-
+print("Creating vector store")
 # Here we create a vector store from the documents and save it to disk.
 store = FAISS.from_texts(docs, HuggingFaceEmbeddings(), metadatas=metadatas)
-faiss.write_index(store.index, "docs_local.index")
+faiss.write_index(store.index, "docs_globose.index")
 store.index = None
-with open("faiss_store_local.pkl", "wb") as f:
+with open("faiss_store_globose.pkl", "wb") as f:
     pickle.dump(store, f)
