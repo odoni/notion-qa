@@ -23,7 +23,7 @@ for p in ps:
 print("Spliting files")
 # Here we split the documents, as needed, into smaller chunks.
 # We do this due to the context limits of the LLMs.
-text_splitter = CharacterTextSplitter(chunk_size=1500, separator=" ")
+text_splitter = CharacterTextSplitter(chunk_size=3000, separator="\n")
 docs = []
 metadatas = []
 for i, d in enumerate(data):
