@@ -5,10 +5,13 @@ import faiss
 from langchain.vectorstores import FAISS
 from langchain.embeddings import HuggingFaceEmbeddings
 import pickle
+import signal
+
+signal.signal(signal.SIGSEGV, signal.SIG_IGN)
 
 print("Loading files")
 # Here we load in the data in the format that Notion exports it in.
-ps = list(Path("dataset_globose_inc/").glob("**/*.txt"))
+ps = list(Path("/Users/felipe.odoni/Documents/glo_dataset").glob("**/*.txt"))
 
 data = []
 sources = []
@@ -20,7 +23,7 @@ for p in ps:
 print("Spliting files")
 # Here we split the documents, as needed, into smaller chunks.
 # We do this due to the context limits of the LLMs.
-text_splitter = CharacterTextSplitter(chunk_size=1500, separator="\n")
+text_splitter = CharacterTextSplitter(chunk_size=3000, separator=" ")
 docs = []
 metadatas = []
 for i, d in enumerate(data):
